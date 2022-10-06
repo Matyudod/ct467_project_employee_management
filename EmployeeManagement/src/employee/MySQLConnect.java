@@ -2,6 +2,8 @@ package employee;
 
 import employee.PhongBanClass;
 import employee.PhongBanService;
+import employee.ChucVuClass;
+import employee.ChucVuService;
 import employee.NhanVienClass;
 import java.nio.charset.Charset;
 import java.sql.Connection;
@@ -40,7 +42,62 @@ public class MySQLConnect {
                 } else if (choise == 1) {
                     System.out.println("1: Quản lí nhân viên");
                 } else if (choise == 2) {
-                    System.out.println("2: Quản lí chức vụ");
+                    System.out.println("Quản lí chức vụ");
+                    System.out.println("-----------------------");
+                    ChucVuService cvs = new ChucVuService();
+                    while (true) {
+                        if (subChoise == 0) {
+                            System.out.println("1: Danh sách chức vụ.");
+                            System.out.println("2: Thêm chức vụ");
+                            System.out.println("3: Cập nhật chức vụ");
+                            System.out.println("4: Xoá chức vụ");
+                            System.out.println("-1: Trở lại");
+                            System.out.print("Vui lòng nhập lựa chọn của bạn:");
+                            subChoise = sc.nextInt();
+                        } else if (subChoise == 1) {
+                            System.out.println("Danh sách chức vụ.");
+                            System.out.println("-----------------------");
+                            List<ChucVuClass> danhSachChucVu = new ArrayList<ChucVuClass>();
+                            danhSachChucVu = cvs.layDanhSachChucVu(conn);
+                            cvs.inDanhSachChucVu(danhSachChucVu);
+                            subChoise = 0;
+                        } else if (subChoise == 2) {
+                            System.out.println("Thêm chức vụ");
+                            System.out.println("-----------------------");
+                            sc.nextLine();
+                            System.out.print("Vui lòng nhập tên chức vụ muốn thêm:");
+                            String tenChucVuMoi = sc.nextLine();
+                            System.out.println("-----------------------");
+                            cvs.themChucVu(conn, tenChucVuMoi);
+                            subChoise = 0;
+                        } else if (subChoise == 3) {
+                            System.out.println("Cập nhật chức vụ");
+                            System.out.println("-----------------------");
+                            System.out.print("Vui lòng nhập mã chức vụ muốn cập nhật:");
+                            int maChucVu = sc.nextInt();
+                            sc.nextLine();
+                            System.out.print("Vui lòng nhập tên chức vụ muốn cập nhật:");
+                            String tenChucVu = sc.nextLine();
+                            System.out.println("-----------------------");
+                            cvs.capNhatChucVu(conn, maChucVu,tenChucVu);
+                            subChoise = 0;
+                        } else if (subChoise == 4) {
+                            System.out.println("Xoá chức vụ");
+                            System.out.println("-----------------------");
+                            System.out.print("Vui lòng nhập mã chức vụ muốn xoá:");
+                            int maChucVu = sc.nextInt();
+                            System.out.println("-----------------------");
+                            cvs.xoaChucVu(conn, maChucVu);
+                            subChoise = 0;
+                        } else if (subChoise == -1) {
+                            subChoise = 0;
+                            choise = 0;
+                            break;
+                        } else {
+                            System.out.println("Không hợp lệ vui lòng nhập lại!");
+                            subChoise = 0;
+                        }
+                    }
                 } else if (choise == 3) {
                     System.out.println("Quản lí phòng ban");
                     System.out.println("-----------------------");
@@ -84,7 +141,7 @@ public class MySQLConnect {
                         } else if (subChoise == 4) {
                             System.out.println("Xoá phòng ban");
                             System.out.println("-----------------------");
-                            System.out.print("Vui lòng nhập mã phòng ban muốn cập nhật:");
+                            System.out.print("Vui lòng nhập mã phòng ban muốn xoá:");
                             int maPhongBanMoi = sc.nextInt();
                             System.out.println("-----------------------");
                             pbs.xoaPhongBan(conn, maPhongBanMoi);
