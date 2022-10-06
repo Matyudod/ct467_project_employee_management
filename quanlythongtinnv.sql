@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 06, 2022 lúc 06:59 AM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 8.1.1
+-- Host: 127.0.0.1
+-- Generation Time: Oct 06, 2022 at 12:35 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,25 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `quanlythongtinnv`
+-- Database: `quanlythongtinnv`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SuaPhongBan` (IN `pMaPhongBan` INT, IN `pTenPhongBan` VARCHAR(50))  UPDATE phongban SET `tenPhongBan` = pTenPhongBan WHERE `maPhongBan` = pMaPhongBan$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ThemPhongBan` (IN `pTenPhongBan` VARCHAR(50))  INSERT INTO phongban(`tenPhongBan`) VALUES (pTenPhongBan)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `XoaPhongBan` (IN `pMaPhongBan` INT)  DELETE FROM phongban WHERE `maPhongBan` = pMaPhongBan$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chucvu`
+-- Table structure for table `chucvu`
 --
 
 CREATE TABLE `chucvu` (
@@ -33,7 +45,7 @@ CREATE TABLE `chucvu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `chucvu`
+-- Dumping data for table `chucvu`
 --
 
 INSERT INTO `chucvu` (`maChucVu`, `tenChucVu`) VALUES
@@ -49,7 +61,7 @@ INSERT INTO `chucvu` (`maChucVu`, `tenChucVu`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhanvien`
+-- Table structure for table `nhanvien`
 --
 
 CREATE TABLE `nhanvien` (
@@ -62,7 +74,7 @@ CREATE TABLE `nhanvien` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `nhanvien`
+-- Dumping data for table `nhanvien`
 --
 
 INSERT INTO `nhanvien` (`maNhanVien`, `maChucVu`, `maPhongBan`, `hoTen`, `diaChi`, `sdt`) VALUES
@@ -74,7 +86,7 @@ INSERT INTO `nhanvien` (`maNhanVien`, `maChucVu`, `maPhongBan`, `hoTen`, `diaChi
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phongban`
+-- Table structure for table `phongban`
 --
 
 CREATE TABLE `phongban` (
@@ -83,7 +95,7 @@ CREATE TABLE `phongban` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `phongban`
+-- Dumping data for table `phongban`
 --
 
 INSERT INTO `phongban` (`maPhongBan`, `tenPhongBan`) VALUES
@@ -91,20 +103,21 @@ INSERT INTO `phongban` (`maPhongBan`, `tenPhongBan`) VALUES
 (2, 'Kế toán'),
 (3, 'Hành chính'),
 (4, 'Marketing'),
-(5, 'Ban giám đốc');
+(5, 'Ban giám đốc'),
+(6, 'Kế hoạch tổng hợp');
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `chucvu`
+-- Indexes for table `chucvu`
 --
 ALTER TABLE `chucvu`
   ADD PRIMARY KEY (`maChucVu`);
 
 --
--- Chỉ mục cho bảng `nhanvien`
+-- Indexes for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
   ADD PRIMARY KEY (`maNhanVien`),
@@ -112,39 +125,39 @@ ALTER TABLE `nhanvien`
   ADD KEY `maPhongBan` (`maPhongBan`);
 
 --
--- Chỉ mục cho bảng `phongban`
+-- Indexes for table `phongban`
 --
 ALTER TABLE `phongban`
   ADD PRIMARY KEY (`maPhongBan`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `chucvu`
+-- AUTO_INCREMENT for table `chucvu`
 --
 ALTER TABLE `chucvu`
   MODIFY `maChucVu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT cho bảng `nhanvien`
+-- AUTO_INCREMENT for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
   MODIFY `maNhanVien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `phongban`
+-- AUTO_INCREMENT for table `phongban`
 --
 ALTER TABLE `phongban`
-  MODIFY `maPhongBan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `maPhongBan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `nhanvien`
+-- Constraints for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
   ADD CONSTRAINT `nhanvien_ibfk_1` FOREIGN KEY (`maChucVu`) REFERENCES `chucvu` (`maChucVu`),
