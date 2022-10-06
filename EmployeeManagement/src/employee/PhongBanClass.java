@@ -17,6 +17,10 @@ public class PhongBanClass {
         this.maPhongBan = maPhongBan;
         this.tenPhongBan = tenPhongBan;
     }
+    public PhongBanClass(int maPhongBan) {
+        this.maPhongBan = maPhongBan;
+        this.tenPhongBan = new String("Undefined");
+    }
 
     public int layMaPhongBan() {
         return this.maPhongBan;
