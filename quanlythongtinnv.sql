@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2022 at 12:35 PM
+-- Generation Time: Oct 06, 2022 at 03:46 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -25,9 +25,15 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SuaChucVu` (IN `pMaChucVu` INT, IN `pTenChucVu` VARCHAR(50))  UPDATE chucvu SET `tenChucVu` = pTenChucVu WHERE `maChucVu` = pMaChucVu$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SuaPhongBan` (IN `pMaPhongBan` INT, IN `pTenPhongBan` VARCHAR(50))  UPDATE phongban SET `tenPhongBan` = pTenPhongBan WHERE `maPhongBan` = pMaPhongBan$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ThemChucVu` (IN `pTenChucVu` VARCHAR(50))  INSERT INTO chucvu(`tenChucVu`) VALUES (pTenChucVu)$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ThemPhongBan` (IN `pTenPhongBan` VARCHAR(50))  INSERT INTO phongban(`tenPhongBan`) VALUES (pTenPhongBan)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `XoaChucVu` (IN `pMaChucVu` INT)  DELETE FROM chucvu WHERE `maChucVu` = pMaChucVu$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `XoaPhongBan` (IN `pMaPhongBan` INT)  DELETE FROM phongban WHERE `maPhongBan` = pMaPhongBan$$
 
@@ -138,7 +144,7 @@ ALTER TABLE `phongban`
 -- AUTO_INCREMENT for table `chucvu`
 --
 ALTER TABLE `chucvu`
-  MODIFY `maChucVu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `maChucVu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `nhanvien`
