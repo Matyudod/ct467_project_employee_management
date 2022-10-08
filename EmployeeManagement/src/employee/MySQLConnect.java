@@ -40,7 +40,94 @@ public class MySQLConnect {
                     choise = sc.nextInt();
                     System.out.println("---------------------------------");
                 } else if (choise == 1) {
-                    System.out.println("1: Quản lí nhân viên");
+                    System.out.println("Quản lí nhân viên");
+                    System.out.println("-----------------------");
+                    NhanVienService nvs= new NhanVienService();
+                    while (true) {
+                        if (subChoise == 0) {
+                            System.out.println("1: Danh sách nhân viên.");
+                            System.out.println("2: Thêm nhân viên.");
+                            System.out.println("3: Cập nhật nhân viên.");
+                            System.out.println("4: Xoá nhân viên.");
+                            System.out.println("5: Tìm nhân viên theo tên.");
+                            System.out.println("5: Tìm nhân viên theo mã.");
+                            System.out.println("5: Tìm nhân viên theo chức vụ.");
+                            System.out.println("-1: Trở lại");
+                            System.out.print("Vui lòng nhập lựa chọn của bạn:");
+                            subChoise = sc.nextInt();
+                        } else if (subChoise == 1) {
+                            System.out.println("Danh sách nhân viên.");
+                            System.out.println("-----------------------");
+                            List<NhanVienClass> danhSachNhanVien = new ArrayList<NhanVienClass>();
+                            danhSachNhanVien = nvs.layDanhSachNhanVien(conn);
+                            nvs.inDanhSachNhanVien(danhSachNhanVien);
+                            subChoise = 0;
+                        } else if (subChoise == 2) {
+                            System.out.println("Thêm nhân viên.");
+                            System.out.println("-----------------------");
+                            sc.nextLine();
+                            
+                            System.out.print("Vui lòng nhập mã chức vụ muốn thêm:");
+                            int maChucVuMoi = sc.nextInt();
+                            
+                            System.out.print("Vui lòng nhập mã phong ban muốn thêm:");
+                            int maPhongBanMoi = sc.nextInt();
+//                            PhongBanService pb =new PhongBanService();
+//                            if (!pb.coPhongBan(conn, maPhongBanMoi)) {
+//                               System.out.println("Không tốn tại mã phòng ban");
+//                               subChoise=0;
+//                               continue;
+//                            }
+                            sc.nextLine();
+                            
+                            System.out.print("Vui lòng nhập họ tên nhân viên muốn thêm:");
+                            String tenNhanVienMoi = sc.nextLine();
+                            
+                            System.out.print("Vui lòng nhập địa chỉ nhân viên muốn thêm:");
+                            String diaChiNhanVienMoi = sc.nextLine();
+                            
+                            System.out.print("Vui lòng nhập SĐT nhân viên muốn thêm:");
+                            String sdtNhanVienMoi = sc.nextLine();
+                            System.out.println("-----------------------");
+                            nvs.themNhanVien(conn, maChucVuMoi, maPhongBanMoi, tenNhanVienMoi, diaChiNhanVienMoi, sdtNhanVienMoi);
+                            subChoise = 0;
+                        } else if (subChoise == 3) {
+                            System.out.println("Cập nhật nhân viên.");
+                            System.out.println("-----------------------");
+                            sc.nextLine();
+                            System.out.print("Vui lòng nhập mã nhân viên muốn sửa:");
+                            int maNhanVienMoi = sc.nextInt();
+                            System.out.print("Vui lòng nhập mã chức vụ muốn sửa:");
+                            int maChucVuMoi = sc.nextInt();
+                            System.out.print("Vui lòng nhập mã phong ban muốn sửa:");
+                            int maPhongBanMoi = sc.nextInt();
+                            sc.nextLine();
+                            System.out.print("Vui lòng nhập họ tên nhân viên muốn sửa:");
+                            String tenNhanVienMoi = sc.nextLine();
+                            System.out.print("Vui lòng nhập địa chỉ nhân viên muốn sửa:");
+                            String diaChiNhanVienMoi = sc.nextLine();
+                            System.out.print("Vui lòng nhập SĐT nhân viên muốn sửa:");
+                            String sdtNhanVienMoi = sc.nextLine();
+                            System.out.println("-----------------------");
+                            nvs.capNhatNhanVien(conn, maNhanVienMoi, maChucVuMoi, maPhongBanMoi, tenNhanVienMoi, diaChiNhanVienMoi, sdtNhanVienMoi);
+                            subChoise = 0;
+                        } else if (subChoise == 4) {
+                            System.out.println("Xoá nhân viên");
+                            System.out.println("-----------------------");
+                            System.out.print("Vui lòng nhập mã nhân viên muốn xoá:");
+                            int maNhanVien = sc.nextInt();
+                            System.out.println("-----------------------");
+                            nvs.xoaNhanVien(conn, maNhanVien);
+                            subChoise = 0;
+                        } else if (subChoise == -1) {
+                            subChoise = 0;
+                            choise = 0;
+                            break;
+                        } else {
+                            System.out.println("Không hợp lệ vui lòng nhập lại!");
+                            subChoise = 0;
+                        }
+                    }
                 } else if (choise == 2) {
                     System.out.println("Quản lí chức vụ");
                     System.out.println("-----------------------");

@@ -90,4 +90,12 @@ public class PhongBanService {
 
         System.out.println("----------------------------");
     }
+//    public boolean coPhongBan(Connection conn,int maPhongBan) {
+//        CallableStatement pStmt = conn.prepareCall("{? = call coPhongBan(?)}");
+//        pStmt.registerOutParameter(1, Types.BOOLEAN);
+//        pStmt.setInt(2, maPhongBan);
+//        pStmt.execute();
+//        if (pStmt.getBoolean(0)!=0) return true;
+//        else return false;
+//    }
 }
