@@ -72,12 +72,14 @@ public class MySQLConnect {
                             
                             System.out.print("Vui lòng nhập mã phong ban muốn thêm:");
                             int maPhongBanMoi = sc.nextInt();
-//                            PhongBanService pb =new PhongBanService();
-//                            if (!pb.coPhongBan(conn, maPhongBanMoi)) {
-//                               System.out.println("Không tốn tại mã phòng ban");
-//                               subChoise=0;
-//                               continue;
-//                            }
+                            PhongBanService pb =new PhongBanService();
+                            if (!pb.coPhongBan(conn, maPhongBanMoi)) {
+                                System.out.println("-----------------------");
+                                System.out.println("Không tốn tại mã phòng ban");
+                                System.out.println("-----------------------");
+                                subChoise=0;
+                                continue;
+                            }
                             sc.nextLine();
                             
                             System.out.print("Vui lòng nhập họ tên nhân viên muốn thêm:");

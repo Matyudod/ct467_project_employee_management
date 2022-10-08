@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2022 at 03:46 PM
+-- Generation Time: Oct 09, 2022 at 01:42 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -36,6 +36,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ThemPhongBan` (IN `pTenPhongBan` VA
 CREATE DEFINER=`root`@`localhost` PROCEDURE `XoaChucVu` (IN `pMaChucVu` INT)  DELETE FROM chucvu WHERE `maChucVu` = pMaChucVu$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `XoaPhongBan` (IN `pMaPhongBan` INT)  DELETE FROM phongban WHERE `maPhongBan` = pMaPhongBan$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `coPhongBan` (`pMaPhongBan` INT) RETURNS TINYINT(1) BEGIN
+	DECLARE countPhongBan INT DEFAULT 0;
+    SELECT COUNT(*) into countPhongBan FROM phongban WHERE maPhongBan = pMaPhongBan;
+    IF countPhongBan > 0 THEN
+    	RETURN true;
+    ELSE 
+    	RETURN false;
+	END IF;
+END$$
 
 DELIMITER ;
 
