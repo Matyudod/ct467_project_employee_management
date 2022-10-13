@@ -5,6 +5,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,5 +114,74 @@ public class NhanVienService {
         });
 
         System.out.println("----------------------------");
+    }
+    public void timNhanVienTheoMaNV(Connection conn,int maNhanVien) {
+        try {
+            PreparedStatement cvStmt = conn.prepareStatement("{call timNhanVienTheoMaNV(?)}");               
+            cvStmt.setInt(1, maNhanVien);
+            ResultSet rsnv = cvStmt.executeQuery();
+            int count = 0;   
+            while (rsnv.next()) {
+                count++;
+                int maNV = rsnv.getInt("maNhanVien");
+                int maCV = rsnv.getInt("maChucVu");
+                int maPB = rsnv.getInt("maPhongBan");
+                String hoTen = rsnv.getString("hoTen");
+                String diaChi = rsnv.getString("diaChi");
+                String sdt = rsnv.getString("sdt");
+                System.out.println(maNV + "\t " +maCV + "\t " +maPB + "\t " +hoTen + "\t " +diaChi + "\t " +sdt);
+            }
+
+            if (count == 0) {System.out.println("Không tồn tại nhân viên có mã này!");}
+        } catch (Exception ex) { //xử lý ngoại lệ nếu có
+            System.out.println("Không tồn tại nhân viên này!");
+            ex.printStackTrace();
+        }
+    }
+    public void timNhanVienTheoTenNV(Connection conn,String tenNhanVien) {
+        try {
+            PreparedStatement cvStmt = conn.prepareStatement("{call timNhanVienTheoTenNV(?)}");               
+            cvStmt.setString(1, tenNhanVien);
+            ResultSet rsnv = cvStmt.executeQuery();
+            int count = 0;         
+            while (rsnv.next()) {
+                count++;
+                int maNV = rsnv.getInt("maNhanVien");
+                int maCV = rsnv.getInt("maChucVu");
+                int maPB = rsnv.getInt("maPhongBan");
+                String hoTen = rsnv.getString("hoTen");
+                String diaChi = rsnv.getString("diaChi");
+                String sdt = rsnv.getString("sdt");
+                System.out.println(maNV + "\t " +maCV + "\t " +maPB + "\t " +hoTen + "\t " +diaChi + "\t " +sdt);
+            }
+           
+            if (count == 0) {System.out.println("Không tồn tại nhân viên có tên này!");}
+        } catch (Exception ex) { //xử lý ngoại lệ nếu có
+            System.out.println("Không tồn tại nhân viên này!");
+            ex.printStackTrace();
+        }
+    }
+        public void timNhanVienTheoMaChucVu(Connection conn,int maChucVu) {
+        try {
+            PreparedStatement cvStmt = conn.prepareStatement("{call timNhanVienTheoMaChucVu(?)}");               
+            cvStmt.setInt(1, maChucVu);
+            ResultSet rsnv = cvStmt.executeQuery();
+            int count = 0;         
+            while (rsnv.next()) {
+                count++;
+                int maNV = rsnv.getInt("maNhanVien");
+                int maCV = rsnv.getInt("maChucVu");
+                int maPB = rsnv.getInt("maPhongBan");
+                String hoTen = rsnv.getString("hoTen");
+                String diaChi = rsnv.getString("diaChi");
+                String sdt = rsnv.getString("sdt");
+                System.out.println(maNV + "\t " +maCV + "\t " +maPB + "\t " +hoTen + "\t " +diaChi + "\t " +sdt);
+            }
+           
+            if (count == 0) {System.out.println("Không tồn tại nhân viên có mã chức vụ này!");}
+        } catch (Exception ex) { //xử lý ngoại lệ nếu có
+            System.out.println("Không tồn tại nhân viên này!");
+            ex.printStackTrace();
+        }
     }
 }

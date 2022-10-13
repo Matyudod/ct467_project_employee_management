@@ -89,4 +89,14 @@ public class ChucVuService {
 
         System.out.println("----------------------------");
     }
+    public boolean coChucVu(Connection conn,int maChucVu) throws SQLException {
+        PreparedStatement pStmt = conn.prepareStatement("SELECT coChucVu(?) coChucVu");
+        pStmt.setInt(1, maChucVu);
+        ResultSet rs = pStmt.executeQuery();
+        int coChucVu = 0;
+        while (rs.next()) {
+                coChucVu = rs.getInt("coChucVu");
+        }
+        return coChucVu!=0;
+    }
 }

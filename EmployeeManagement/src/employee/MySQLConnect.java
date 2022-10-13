@@ -49,9 +49,9 @@ public class MySQLConnect {
                             System.out.println("2: Thêm nhân viên.");
                             System.out.println("3: Cập nhật nhân viên.");
                             System.out.println("4: Xoá nhân viên.");
-                            System.out.println("5: Tìm nhân viên theo tên.");
                             System.out.println("5: Tìm nhân viên theo mã.");
-                            System.out.println("5: Tìm nhân viên theo chức vụ.");
+                            System.out.println("6: Tìm nhân viên theo tên.");   
+                            System.out.println("7: Tìm nhân viên theo chức vụ.");
                             System.out.println("-1: Trở lại");
                             System.out.print("Vui lòng nhập lựa chọn của bạn:");
                             subChoise = sc.nextInt();
@@ -67,8 +67,16 @@ public class MySQLConnect {
                             System.out.println("-----------------------");
                             sc.nextLine();
                             
-                            System.out.print("Vui lòng nhập mã chức vụ muốn thêm:");
+                            System.out.print("Vui lòng nhập mã chuc vu muốn thêm:");
                             int maChucVuMoi = sc.nextInt();
+                            ChucVuService cv =new ChucVuService();
+                            if (!cv.coChucVu(conn, maChucVuMoi)) {
+                                System.out.println("-----------------------");
+                                System.out.println("Không tốn tại mã chuc vu");
+                                System.out.println("-----------------------");
+                                subChoise=0;
+                                continue;
+                            }
                             
                             System.out.print("Vui lòng nhập mã phong ban muốn thêm:");
                             int maPhongBanMoi = sc.nextInt();
@@ -80,6 +88,7 @@ public class MySQLConnect {
                                 subChoise=0;
                                 continue;
                             }
+                            
                             sc.nextLine();
                             
                             System.out.print("Vui lòng nhập họ tên nhân viên muốn thêm:");
@@ -121,6 +130,30 @@ public class MySQLConnect {
                             System.out.println("-----------------------");
                             nvs.xoaNhanVien(conn, maNhanVien);
                             subChoise = 0;
+                        } else if (subChoise == 5) {
+                            System.out.println("Tim nhan viên theo mã nhân viên:");
+                            System.out.println("Vui lòng nhập mã nhân viên bạn muốn tìm:");
+                            int maNV = sc.nextInt();             
+                            nvs.timNhanVienTheoMaNV(conn,maNV);
+                            
+                            subChoise = 0;
+                        
+                        } else if (subChoise == 6) {
+                            System.out.println("Tim nhan viên theo tên nhân viên:");
+                            System.out.println("Vui lòng nhập tên nhân viên bạn muốn tìm:");
+                            sc.nextLine();
+                            String tenNhanVien = sc.nextLine();             
+                            nvs.timNhanVienTheoTenNV(conn,tenNhanVien);
+                            
+                            subChoise = 0;
+                        
+                        } else if (subChoise == 7) {
+                            System.out.println("Tim nhan viên theo mã chức vụ nhân viên:");
+                            int maCV = sc.nextInt();             
+                            nvs.timNhanVienTheoMaChucVu(conn,maCV);
+                            
+                            subChoise = 0;
+                        
                         } else if (subChoise == -1) {
                             subChoise = 0;
                             choise = 0;
