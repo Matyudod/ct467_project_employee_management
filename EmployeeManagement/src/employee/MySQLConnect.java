@@ -129,6 +129,7 @@ public class MySQLConnect {
                             int maNhanVien = sc.nextInt();
                             System.out.println("-----------------------");
                             nvs.xoaNhanVien(conn, maNhanVien);
+                                    
                             subChoise = 0;
                         } else if (subChoise == 5) {
                             System.out.println("Tim nhan viên theo mã nhân viên:");

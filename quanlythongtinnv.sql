@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 09, 2022 at 01:42 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.12
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th10 30, 2022 lúc 09:25 AM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 8.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,53 +18,113 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `quanlythongtinnv`
+-- Cơ sở dữ liệu: `quanlythongtinnv`
 --
+CREATE DATABASE IF NOT EXISTS `quanlythongtinnv` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `quanlythongtinnv`;
 
 DELIMITER $$
 --
--- Procedures
+-- Thủ tục
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SuaChucVu` (IN `pMaChucVu` INT, IN `pTenChucVu` VARCHAR(50))  UPDATE chucvu SET `tenChucVu` = pTenChucVu WHERE `maChucVu` = pMaChucVu$$
+DROP PROCEDURE IF EXISTS `SuaChucVu`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SuaChucVu` (`p_maChucVu` INT, `p_tenChucVu` CHAR(50))  begin
+	UPDATE chucvu SET maChucVu=p_maChucVu,  tenChucVu = p_tenChucVu WHERE chucvu.maChucVu = p_maChucVu;
+end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SuaPhongBan` (IN `pMaPhongBan` INT, IN `pTenPhongBan` VARCHAR(50))  UPDATE phongban SET `tenPhongBan` = pTenPhongBan WHERE `maPhongBan` = pMaPhongBan$$
+DROP PROCEDURE IF EXISTS `suaNhanVien`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `suaNhanVien` (`p_maNhanVien` INT, `p_maChucVu` INT, `p_maPhongBan` INT, `p_hoTen` VARCHAR(50), `p_diaChi` VARCHAR(255), `p_sdt` CHAR(10))  begin
+	UPDATE nhanvien SET maNhanVien=p_maNhanVien, maChucVu=p_maChucVu,  maPhongBan = p_maPhongBan, hoTen = p_hoTen, diaChi = p_diaChi, sdt = p_sdt WHERE nhanvien.maNhanVien = p_maNhanVien;
+end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ThemChucVu` (IN `pTenChucVu` VARCHAR(50))  INSERT INTO chucvu(`tenChucVu`) VALUES (pTenChucVu)$$
+DROP PROCEDURE IF EXISTS `SuaPhongBan`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SuaPhongBan` (`p_maPhongBan` INT, `p_tenPhongBan` VARCHAR(50))  begin
+	UPDATE phongban SET maPhongBan=p_maPhongBan,  tenPhongBan = p_tenPhongBan WHERE maPhongBan = p_maPhongBan;
+end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ThemPhongBan` (IN `pTenPhongBan` VARCHAR(50))  INSERT INTO phongban(`tenPhongBan`) VALUES (pTenPhongBan)$$
+DROP PROCEDURE IF EXISTS `ThemChucVu`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ThemChucVu` (`sp_tenChucVu` CHAR(50))  BEGIN
+	INSERT INTO chucvu VALUES (NULL, sp_tenChucVu);
+end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `XoaChucVu` (IN `pMaChucVu` INT)  DELETE FROM chucvu WHERE `maChucVu` = pMaChucVu$$
+DROP PROCEDURE IF EXISTS `themNhanVien`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `themNhanVien` (`fn_maChucVu` INT, `fn_maPhongBan` INT, `fn_hoTen` VARCHAR(50), `diaChi` VARCHAR(255), `sdt` CHAR(10))  BEGIN
+	INSERT INTO nhanvien VALUES (NULL, fn_maChucVu, fn_maPhongBan, fn_hoTen, diaChi,sdt);
+end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `XoaPhongBan` (IN `pMaPhongBan` INT)  DELETE FROM phongban WHERE `maPhongBan` = pMaPhongBan$$
+DROP PROCEDURE IF EXISTS `ThemPhongBan`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ThemPhongBan` (`sp_tenPhongBan` VARCHAR(50))  BEGIN
+	INSERT INTO phongban VALUES (NULL, sp_tenPhongBan);
+end$$
+
+DROP PROCEDURE IF EXISTS `timNhanVienTheoMaChucVu`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `timNhanVienTheoMaChucVu` (`fn_maChucVu` INT)  begin
+	select * from nhanvien where maChucVu = fn_maChucVu;
+end$$
+
+DROP PROCEDURE IF EXISTS `timNhanVienTheoMaNV`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `timNhanVienTheoMaNV` (`fn_maNhanVien` INT)  begin
+	select * from nhanvien where maNhanVien = fn_maNhanVien;
+end$$
+
+DROP PROCEDURE IF EXISTS `timNhanVienTheoTenNV`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `timNhanVienTheoTenNV` (`fn_tenNhanVien` VARCHAR(50))  begin
+	select * from nhanvien where hoTen like concat('%', fn_tenNhanVien, '%');
+end$$
+
+DROP PROCEDURE IF EXISTS `XoaChucVu`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `XoaChucVu` (`p_maChucVu` INT)  begin
+	delete from chucvu where maChucVu = p_maChucVu;
+end$$
+
+DROP PROCEDURE IF EXISTS `xoaNhanVien`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `xoaNhanVien` (`p_maNhanVien` INT)  begin
+	delete from nhanvien where maNhanVien= p_maNhanVien;
+end$$
+
+DROP PROCEDURE IF EXISTS `XoaPhongBan`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `XoaPhongBan` (`p_maPhongBan` INT)  begin
+	delete from phongban where maPhongBan = p_maPhongBan;
+end$$
 
 --
--- Functions
+-- Các hàm
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `coPhongBan` (`pMaPhongBan` INT) RETURNS TINYINT(1) BEGIN
-	DECLARE countPhongBan INT DEFAULT 0;
-    SELECT COUNT(*) into countPhongBan FROM phongban WHERE maPhongBan = pMaPhongBan;
-    IF countPhongBan > 0 THEN
-    	RETURN true;
-    ELSE 
-    	RETURN false;
-	END IF;
-END$$
+DROP FUNCTION IF EXISTS `coChucVu`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `coChucVu` (`fn_maChucVu` INT) RETURNS TINYINT(1) BEGIN
+	declare tmp int default 0;
+	SELECT COUNT(*) INTO tmp from chucvu WHERE `maChucVu`=fn_maChucVu;
+    if tmp>0 then RETURN true;
+    else RETURN false;
+    end if;
+end$$
+
+DROP FUNCTION IF EXISTS `coPhongBan`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `coPhongBan` (`fn_maPhongBan` INT) RETURNS TINYINT(1) BEGIN
+	declare tmp int default 0;
+	SELECT COUNT(*) INTO tmp from phongban WHERE `maPhongBan`=fn_maPhongBan;
+    if tmp>0 then RETURN true;
+    else RETURN false;
+    end if;
+end$$
 
 DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chucvu`
+-- Cấu trúc bảng cho bảng `chucvu`
 --
 
-CREATE TABLE `chucvu` (
-  `maChucVu` int(11) NOT NULL,
-  `tenChucVu` char(50) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `chucvu`;
+CREATE TABLE IF NOT EXISTS `chucvu` (
+  `maChucVu` int(11) NOT NULL AUTO_INCREMENT,
+  `tenChucVu` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`maChucVu`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `chucvu`
+-- Đang đổ dữ liệu cho bảng `chucvu`
 --
 
 INSERT INTO `chucvu` (`maChucVu`, `tenChucVu`) VALUES
@@ -75,46 +135,53 @@ INSERT INTO `chucvu` (`maChucVu`, `tenChucVu`) VALUES
 (5, 'Lao công'),
 (6, 'Phó giám đốc'),
 (7, 'Trưởng phòng'),
-(8, 'Phó phòng');
+(9, 'kế toán');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nhanvien`
+-- Cấu trúc bảng cho bảng `nhanvien`
 --
 
-CREATE TABLE `nhanvien` (
-  `maNhanVien` int(11) NOT NULL,
+DROP TABLE IF EXISTS `nhanvien`;
+CREATE TABLE IF NOT EXISTS `nhanvien` (
+  `maNhanVien` int(11) NOT NULL AUTO_INCREMENT,
   `maChucVu` int(11) NOT NULL,
   `maPhongBan` int(11) NOT NULL,
   `hoTen` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `diaChi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sdt` char(10) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `sdt` char(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`maNhanVien`),
+  KEY `maChucVu` (`maChucVu`),
+  KEY `maPhongBan` (`maPhongBan`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `nhanvien`
+-- Đang đổ dữ liệu cho bảng `nhanvien`
 --
 
 INSERT INTO `nhanvien` (`maNhanVien`, `maChucVu`, `maPhongBan`, `hoTen`, `diaChi`, `sdt`) VALUES
-(1, 1, 5, 'Ông Tú Khanh', '132/14', '09678334'),
-(2, 6, 5, 'Đỗ Duy Tâm', '51 3/2', '8989843879'),
-(3, 1, 5, 'Ông Tú Khanh', '132/14', '09678334'),
-(4, 6, 5, 'Đỗ Duy Tâm', '51 3/2', '887847939');
+(1, 1, 2, 'Ông Tú Khanh', '132/14', '2346899'),
+(3, 3, 2, 'khenh', '23ed', '23456'),
+(4, 6, 5, 'Đỗ Duy Tâm', '51 3/2', '887847939'),
+(7, 3, 2, 'khuhuh', '2đw', 'g22777'),
+(9, 4, 5, 'Duy Tâm', '51/342', '234577');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `phongban`
+-- Cấu trúc bảng cho bảng `phongban`
 --
 
-CREATE TABLE `phongban` (
-  `maPhongBan` int(11) NOT NULL,
-  `tenPhongBan` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `phongban`;
+CREATE TABLE IF NOT EXISTS `phongban` (
+  `maPhongBan` int(11) NOT NULL AUTO_INCREMENT,
+  `tenPhongBan` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`maPhongBan`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `phongban`
+-- Đang đổ dữ liệu cho bảng `phongban`
 --
 
 INSERT INTO `phongban` (`maPhongBan`, `tenPhongBan`) VALUES
@@ -122,61 +189,14 @@ INSERT INTO `phongban` (`maPhongBan`, `tenPhongBan`) VALUES
 (2, 'Kế toán'),
 (3, 'Hành chính'),
 (4, 'Marketing'),
-(5, 'Ban giám đốc'),
-(6, 'Kế hoạch tổng hợp');
+(5, 'Hội đòng quản trị');
 
 --
--- Indexes for dumped tables
---
-
---
--- Indexes for table `chucvu`
---
-ALTER TABLE `chucvu`
-  ADD PRIMARY KEY (`maChucVu`);
-
---
--- Indexes for table `nhanvien`
---
-ALTER TABLE `nhanvien`
-  ADD PRIMARY KEY (`maNhanVien`),
-  ADD KEY `maChucVu` (`maChucVu`),
-  ADD KEY `maPhongBan` (`maPhongBan`);
-
---
--- Indexes for table `phongban`
---
-ALTER TABLE `phongban`
-  ADD PRIMARY KEY (`maPhongBan`);
-
---
--- AUTO_INCREMENT for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `chucvu`
---
-ALTER TABLE `chucvu`
-  MODIFY `maChucVu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `nhanvien`
---
-ALTER TABLE `nhanvien`
-  MODIFY `maNhanVien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `phongban`
---
-ALTER TABLE `phongban`
-  MODIFY `maPhongBan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `nhanvien`
+-- Các ràng buộc cho bảng `nhanvien`
 --
 ALTER TABLE `nhanvien`
   ADD CONSTRAINT `nhanvien_ibfk_1` FOREIGN KEY (`maChucVu`) REFERENCES `chucvu` (`maChucVu`),

@@ -99,11 +99,11 @@ public class NhanVienService {
             cStmt.setInt(1, maNhanVien);
             cStmt.executeQuery();
             
-            System.out.println("Xoá phòng ban thành công!");
+            System.out.println("Xoá nhân vien thành công!");
             System.out.println("----------------------------");
             
         } catch (Exception ex) { //xử lý ngoại lệ nếu có
-            System.out.println("Xoá phòng ban không thành công");
+            System.out.println("Xoá nhân viên không thành công");
             ex.printStackTrace();
         }
     }
